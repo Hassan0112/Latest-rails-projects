@@ -1,0 +1,38 @@
+<h1>Orders Dashboard</h1>
+
+<% if current_user.admin? %>
+  <%= form_with url: orders_path, method: :get, local: true do |f| %>
+    <p>
+      <%= f.label :status %>
+      <%= f.select :status, ["pending", "paid", "shipped"], include_blank: "All" %>
+    </p>
+    <p>
+      <%= f.label :start_date %>
+      <%= f.date_field :start_date %>
+      <%= f.label :end_date %>
+      <%= f.date_field :end_date %>
+    </p>
+    <%= f.submit "Filter" %>
+  <% end %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= link_to order.id, order_path(order) %></td>
+        <td><%= order.created_at.strftime("%d %b %Y") %></td>
+        <td><%= order.status %></td>
+        <td><%= order.total %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

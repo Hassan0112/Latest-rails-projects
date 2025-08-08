@@ -1,0 +1,43 @@
+<script src="https://js.stripe.com/v3/"></script>
+
+<h2>Stripe Test Payment</h2>
+
+<div id="card-element" style="max-width:400px;margin-bottom:12px;"></div>
+<button id="pay-button">Pay $10.00</button>
+
+<script>
+  // 1 Initialise Stripe with the **publishable** key
+  const stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>");
+
+  // 2 Mount a Card Element for real-card collection in test mode
+  const elements = stripe.elements();
+  const card     = elements.create('card');
+  card.mount('#card-element');
+
+  // 3 Grab CSRF token for Rails-protected POST
+  const csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute('content');
+
+  document.getElementById('pay-button').addEventListener('click', async () => {
+    // 4 Ask the server for a PaymentIntent
+    const r   = await fetch('/payments/create', {
+      method : 'POST',
+      headers: { 'X-CSRF-Token': csrfToken }
+    });
+    const { client_secret } = await r.json();
+
+    // 5 Confirm the payment with card details
+    const { error, paymentIntent } = await stripe.confirmCardPayment(
+      client_secret,
+      { payment_method: { card } }
+    );
+
+    if (error) {
+      alert(`Payment failed: ${error.message}`);
+    } else if (paymentIntent.status === 'succeeded') {
+      alert('Payment successful!');
+      // TODO: redirect or show receipt
+    }
+  });
+</script>

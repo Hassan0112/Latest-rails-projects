@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  listing: one
+  buyer: one
+  start_date: 2025-06-11
+  end_date: 2025-06-11
+  total_amount_cents: 1
+
+two:
+  listing: two
+  buyer: two
+  start_date: 2025-06-11
+  end_date: 2025-06-11
+  total_amount_cents: 1

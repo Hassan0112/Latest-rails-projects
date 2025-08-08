@@ -1,0 +1,14 @@
+web: bin/rails server
+worker: bundle exec sidekiq
+
+#Here’s what they do:
+
+#web: starts your Rails app (like running rails s)
+
+#worker: starts Sidekiq to process background jobs
+
+#Think of it like this:
+
+#The web process handles user requests.
+
+#The worker process handles background tasks (like emails, notifications, etc.).

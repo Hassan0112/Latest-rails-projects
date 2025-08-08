@@ -1,0 +1,5 @@
+<% unless current_user.stripe_account_id.present? %>
+  <%= link_to "Connect your Stripe account", stripe_connect_path %>
+<% else %>
+  <%= "Stripe Connected: #{current_user.stripe_account_id}" %>
+<% end %>

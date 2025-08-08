@@ -1,0 +1,5 @@
+<%= form_with url: listings_path, method: :get, local: ture do |f| %>
+    <%= f.label :q, Search "listings" %>
+    <%= f.search_field :q, params[q] %>
+    <%= f.submit "Search" %>
+<% end %>

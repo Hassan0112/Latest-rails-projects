@@ -1,0 +1,8 @@
+<div data-controller="chat" data-chat-conversation-id-value="<%= @conversation.id %>">
+  <%= render @conversation.messages %> <!-- Render all messages for the conversation -->
+</div>
+
+<%= form_with model: [@conversation, Message.new], data: { turbo_frame: "_top" } do |f| %>
+  <%= f.text_field :body, placeholder: "Type a message..." %>
+  <%= f.submit "Send" %>
+<% end %>
